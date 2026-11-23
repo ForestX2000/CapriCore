@@ -509,7 +509,10 @@ export async function install(
         try {
           savedInference = apiSettings(readJson(inferenceFile, 8192));
         } catch {
-          if (plan.inferenceMode === 'api')
+          // When API mode is selected, unreadable existing settings should not
+          // block setup — the owner will configure the API provider fresh.
+          // Only local mode requires a readable existing settings file.
+          if (plan.inferenceMode !== 'api')
             throw new Error(
               'Existing API settings are unreadable. Repair them in Capri before selecting API mode.',
             );
