@@ -756,7 +756,8 @@ function Update-CapriPageControls{
     $script:fields.heading=$heading
     $helpTopics=@{interface='interfaceLanguage';device='hardware';conversation='conversationLanguage';model='profile';voice='voiceMode'}
     $topic=if($helpTopics.ContainsKey($script:page)){$helpTopics[$script:page]}else{$script:page}
-    $null=Add-CapriInfo ('page-'+$script:page) 25 622 (Text-Capri ('info.'+$topic))
+    $infoX=[Math]::Min(622,($body.ClientSize.Width-(D 28)-26))
+    $null=Add-CapriInfo ('page-'+$script:page) 25 $infoX (Text-Capri ('info.'+$topic))
     switch($script:page){
         'interface'{
             $next.Text=Text-Capri 'survey.start'
